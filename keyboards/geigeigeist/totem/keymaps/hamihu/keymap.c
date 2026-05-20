@@ -255,6 +255,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 // ▝▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▘
 
+uint16_t get_require_prior_idle_ms(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case MT(MOD_LGUI, KC_A):
+        case MT(MOD_LALT, KC_R):
+        case MT(MOD_LCTL, KC_S):
+        case MT(MOD_LSFT, KC_T):
+        case MT(MOD_RSFT, KC_N):
+        case MT(MOD_RCTL, KC_E):
+        case MT(MOD_LALT, KC_I):
+        case MT(MOD_RGUI, KC_O):
+            return 150;
+        default:
+            return 0;
+    }
+}
+
 layer_state_t layer_state_set_user(layer_state_t state) {
     return update_tri_layer_state(state, _NUM, _SYM, _ADJUST);
 }
