@@ -3,8 +3,11 @@
 #pragma once
 
 #define TAPPING_TERM 250
-#define QUICK_TAP_TERM 175
+#define COMBO_TERM 40
 #define PERMISSIVE_HOLD
+#define FLOW_TAP_TERM 150
+#define CHORDAL_HOLD
+#define QUICK_TAP_TERM 175
 
 // Bootmagic: hold outer bottom key while plugging in to enter bootloader
 #define BOOTMAGIC_ROW 3 // left outer bottom key

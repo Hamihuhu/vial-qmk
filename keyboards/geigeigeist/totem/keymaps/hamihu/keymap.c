@@ -12,6 +12,7 @@
 */
 
 #include "keycodes.h"
+#include "quantum_keycodes.h"
 #include QMK_KEYBOARD_H
 
 // ┌─────────────────────────────────────────────────┐
@@ -50,12 +51,24 @@ enum custom_keycodes {
     SHAKE_MOUSE = SAFE_RANGE,
 };
 
+// clang-format off
+// ┌─────────────────────────────────────────────────┐
+// │ c o m b o s                                     │
+// └─────────────────────────────────────────────────┘
+
+const uint16_t PROGMEM wf_combo[] = {KC_W, KC_F, COMBO_END};
+const uint16_t PROGMEM fp_combo[] = {KC_F, KC_P, COMBO_END};
+
+combo_t key_combos[] = {
+    COMBO(wf_combo, KC_ESC),
+    COMBO(fp_combo, KC_TAB)
+};
+
 // ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 // │ K E Y M A P S                                                                                                          │
 // └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 // ▝▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▘
 
-// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /*
@@ -69,15 +82,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       ┌─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┐
       │   ESC   │    Z    │    X    │    C    │    D    │    V    ││    K    │    H    │    ,    │    .    │    /    │ DELETE  │
       └─────────┴─────────┴─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┴─────────┴─────────┘
-                                    │  LCTL   │NUM/BSPC │MSE/ENT  ││NAV/SPC  │SYM/BSPC │MED/TAB  │
+                                    │LCTL/TAB │NUM/BSPC │MSE/ENT  ││NAV/SPC  │SYM/BSPC │   MED   │
                                     └─────────┴─────────┴─────────┘└─────────┴─────────┴─────────┘*/
 
     [_DEFAULT] = LAYOUT(
         //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
                  KC_Q,               KC_W,               KC_F,               KC_P,               KC_B,       KC_J,    KC_L,               KC_U,               KC_Y,               KC_SCLN,
                  MT(MOD_LGUI, KC_A), MT(MOD_LALT, KC_R), MT(MOD_LCTL, KC_S), MT(MOD_LSFT, KC_T), KC_G,       KC_M,    MT(MOD_RSFT, KC_N), MT(MOD_RCTL, KC_E), MT(MOD_LALT, KC_I), MT(MOD_RGUI, KC_O),
-        KC_ESC, KC_Z,               KC_X,               KC_C,               KC_D,               KC_V,       KC_K,    KC_H,               KC_COMM,            KC_DOT,             KC_SLSH,            KC_DEL,
-                                                         KC_LCTL,            LT(_NUM, KC_BSPC),  LT(_MOUSE, KC_ENT),  LT(_NAV, KC_SPC),   LT(_SYM, KC_BSPC),  LT(_MEDIA, KC_TAB)
+        KC_ESC, KC_Z,           KC_X,               KC_C,               KC_D,               KC_V,       KC_K,    KC_H,               KC_COMM,            KC_DOT,             KC_SLSH,            KC_DEL,
+                                    MT(MOD_LCTL, KC_TAB),      LT(_NUM, KC_BSPC),  LT(_MOUSE, KC_ENT),  LT(_NAV, KC_SPC),   LT(_SYM, KC_BSPC),  MO(_MEDIA)
     ),
 
     /*
@@ -253,7 +266,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 // │ M A C R O S                                                                                                            │
 // └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-// ▝▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▘
 
 uint16_t get_require_prior_idle_ms(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -270,6 +282,7 @@ uint16_t get_require_prior_idle_ms(uint16_t keycode, keyrecord_t *record) {
             return 0;
     }
 }
+// ▝▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▘
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     return update_tri_layer_state(state, _NUM, _SYM, _ADJUST);
