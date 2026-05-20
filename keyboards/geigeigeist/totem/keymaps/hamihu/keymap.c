@@ -284,6 +284,18 @@ uint16_t get_require_prior_idle_ms(uint16_t keycode, keyrecord_t *record) {
 }
 // ▝▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▘
 
+bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, uint16_t other_keycode, keyrecord_t *other_record) {
+    // if is thumb key, then thumb takes precedence over opposite hand.
+    switch (tap_hold_keycode) {
+        case LT(_NUM, KC_BSPC):
+        case LT(_MOUSE, KC_ENT):
+        case LT(_NAV, KC_SPC):
+        case LT(_SYM, KC_BSPC):
+            return true;
+    } // Otherwise defer to the opposite hands rule.
+    return get_chordal_hold_default(tap_hold_record, other_record);
+}
+
 layer_state_t layer_state_set_user(layer_state_t state) {
     return update_tri_layer_state(state, _NUM, _SYM, _ADJUST);
 }
