@@ -56,7 +56,7 @@ enum custom_keycodes {
 // │ c o m b o s                                     │
 // └─────────────────────────────────────────────────┘
 
-const uint16_t PROGMEM wf_combo[] = {KC_W, KC_F, COMBO_END};
+const uint16_t PROGMEM wf_combo[] = {KC_Q, KC_W, COMBO_END};
 const uint16_t PROGMEM fp_combo[] = {KC_F, KC_P, COMBO_END};
 
 combo_t key_combos[] = {
